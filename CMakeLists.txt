@@ -16,7 +16,7 @@ endif()
 file(GLOB SRC "src/*.cpp" "src/**/*.cpp")
 
 include_directories(dep/ebcpp/src)
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++ -static")
 
 add_executable(MagicHomeProtocol ${SRC})
-
 target_link_libraries(MagicHomeProtocol wsock32 ws2_32 -Wl,-subsystem,console)

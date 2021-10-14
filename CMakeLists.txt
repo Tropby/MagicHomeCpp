@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(MogicHomeProtocol VERSION 0.1.0)
+project(MagicHomeProtocol VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -17,6 +17,6 @@ file(GLOB SRC "src/*.cpp" "src/**/*.cpp")
 
 include_directories(dep/ebcpp/src)
 
-add_executable(MogicHomeProtocol ${SRC})
+add_executable(MagicHomeProtocol ${SRC})
 
-target_link_libraries(MogicHomeProtocol wsock32 ws2_32 -Wl,-subsystem,console)
+target_link_libraries(MagicHomeProtocol wsock32 ws2_32 -Wl,-subsystem,console)

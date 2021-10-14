@@ -7,32 +7,41 @@ class MagicHomeProtocol : public EBCpp::EBObject<MagicHomeProtocol>
 public:
     typedef enum
     {
-        RGB,
-        RGB_WW,
-        RGB_WW_CW,
-        BLUB_V4,
-        BLUB_V3
+        RGB = 0,
+        RGB_WW = 1,
+        RGB_WW_CW = 2,
+        BLUB_V4 = 3,
+        BLUB_V3 = 4
     } DEVICE_TYPE;
 
     MagicHomeProtocol(DEVICE_TYPE deviceType) : deviceType(deviceType)
     {
+
     }
 
-    void connect()
+    ~MagicHomeProtocol()
     {
-        EB_LOG_DEBUG("Connect to LED Strip!");
 
+    }
+
+    bool connect( std::string ip )
+    {
         socket.connected.connect(this, &MagicHomeProtocol::tcpConnected);
         socket.disconnected.connect(this, &MagicHomeProtocol::tcpDisconnected);
         socket.error.connect(this, &MagicHomeProtocol::tcpError);
         socket.readReady.connect(this, &MagicHomeProtocol::tcpReadReady);
 
-        socket.setFileName("tcp://192.168.222.151:5577");
+        socket.setFileName(ip);
+        return socket.open(EBCpp::EBTcpSocket::READ_WRITE);
+    }
 
-        if (!socket.open(EBCpp::EBTcpSocket::READ_WRITE))
-        {
-            EB_LOG_DEBUG("Can not connect!");
-        }
+    void disconnect()
+    {
+        socket.connected.disconnect(this, &MagicHomeProtocol::tcpConnected);
+        socket.error.disconnect(this, &MagicHomeProtocol::tcpError);
+        socket.readReady.disconnect(this, &MagicHomeProtocol::tcpReadReady);
+
+        socket.close();
     }
 
     void turnOff()
@@ -114,7 +123,7 @@ public:
             socket.write((char *)buffer, 8);
             break;
         }
-        
+
         }
     }
 
@@ -164,6 +173,8 @@ private:
 
     EB_SLOT(tcpDisconnected)
     {
+        socket.disconnected.disconnect(this, &MagicHomeProtocol::tcpDisconnected);
+        
         EB_EMIT(disconnected);
     }
 

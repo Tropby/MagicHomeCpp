@@ -11,6 +11,8 @@ if(WIN32)
     add_definitions(-D_WIN32_WINNT=${WINDOWS_VERSION})
 endif()
 
+#add_definitions(-DEXTENDED_LOG)
+
 file(GLOB SRC "src/*.cpp" "src/**/*.cpp")
 
 include_directories(dep/ebcpp/src)

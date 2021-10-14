@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "D:\\Tools\\OpenSSL\\OpenSSL-Win32\\include\\",
-                "${workspaceFolder}/dep/ebcpp/src"
+                "${workspaceFolder}\\dep\\ebcpp\\src"
             ],
             "defines": [
                 "_DEBUG",

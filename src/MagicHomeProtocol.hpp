@@ -174,7 +174,7 @@ private:
     EB_SLOT(tcpDisconnected)
     {
         socket.disconnected.disconnect(this, &MagicHomeProtocol::tcpDisconnected);
-        
+
         EB_EMIT(disconnected);
     }
 
@@ -191,6 +191,11 @@ private:
 
     EB_SLOT_WITH_ARGS(tcpError, std::string message)
     {
+        socket.disconnected.disconnect(this, &MagicHomeProtocol::tcpDisconnected);
+        socket.connected.disconnect(this, &MagicHomeProtocol::tcpConnected);
+        socket.error.disconnect(this, &MagicHomeProtocol::tcpError);
+        socket.readReady.disconnect(this, &MagicHomeProtocol::tcpReadReady);
+
         EB_EMIT_WITH_ARGS(error, message);
     }
 
